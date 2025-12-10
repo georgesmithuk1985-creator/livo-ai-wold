@@ -11,92 +11,67 @@ export default function DashboardPage() {
       label: "Active Devices",
       value: "3",
       description: "Currently connected to LIVO services.",
-      background: "linear-gradient(135deg, #062b33, #044a5a)",
+      background: "linear-gradient(135deg, #062b33, #062b33, #04445a)",
     },
     {
       id: 2,
       label: "Sessions today",
       value: "12",
       description: "Voice / video / chat interactions (mock).",
-      background: "linear-gradient(135deg, #071d45, #13458b)",
+      background: "linear-gradient(135deg, #062854, #0b3b7a, #0d47a1)",
     },
     {
       id: 3,
       label: "Translation minutes",
       value: "47 min",
       description: "Total AI translation time (mock).",
-      background: "linear-gradient(135deg, #2a1010, #552424)",
-    },
-  ];
-
-  const quickActions = [
-    {
-      id: 1,
-      title: "Live Voice Translator",
-      subtitle: "Start a real-time voice session (future).",
-      borderColor: "#16a34a",
-      hoverBackground: "rgba(22,163,74,0.12)",
-    },
-    {
-      id: 2,
-      title: "Live Video Translator",
-      subtitle: "High-quality video with AI subtitles (future).",
-      borderColor: "#2563eb",
-      hoverBackground: "rgba(37,99,235,0.12)",
-    },
-    {
-      id: 3,
-      title: "AI Chat & File Translator",
-      subtitle: "Chat & instantly translate PDF / Word (future).",
-      borderColor: "#7c3aed",
-      hoverBackground: "rgba(124,58,237,0.12)",
+      background: "linear-gradient(135deg, #4a1b1b, #7f1d1d, #b91c1c)",
     },
   ];
 
   const recentActivity = [
     {
       id: 1,
-      title: "Voice translation — English ↔ Persian",
-      meta: "12 minutes · Today · 09:32 (mock)",
+      title: "Voice translation — English ⇄ Persian",
+      detail: "12 minutes · Today · 09:32 (mock)",
     },
     {
       id: 2,
       title: "Video session — Live subtitles enabled",
-      meta: "25 minutes · Today · 18:05 (mock)",
+      detail: "25 minutes · Today · 18:05 (mock)",
     },
     {
       id: 3,
       title: "File translation — medical_report.pdf",
-      meta: "Completed · Yesterday · 21:10 (mock)",
+      detail: "Completed · Yesterday · 21:10 (mock)",
     },
   ];
 
   return (
-    <div
+    <main
       style={{
         minHeight: "100vh",
-        background: "radial-gradient(circle at top, #0f172a 0, #020617 55%)",
-        color: "#e5e7eb",
+        background: "radial-gradient(circle at top, #111827, #020617 60%)",
+        color: "#f9fafb",
+        padding: "40px 16px",
         display: "flex",
         justifyContent: "center",
-        padding: "40px 16px",
       }}
     >
       <div
         style={{
           width: "100%",
-          maxWidth: "1120px",
-          background:
-            "linear-gradient(145deg, rgba(15,23,42,0.98), rgba(15,23,42,0.98))",
+          maxWidth: "1100px",
           borderRadius: "24px",
-          padding: "28px 28px 32px 28px",
-          boxShadow:
-            "0 24px 60px rgba(0,0,0,0.75), 0 0 0 1px rgba(148,163,184,0.16)",
-          border: "1px solid rgba(148,163,184,0.28)",
+          padding: "32px",
+          background:
+            "radial-gradient(circle at 0% 0%, rgba(56,189,248,0.1), transparent 60%), radial-gradient(circle at 100% 0%, rgba(168,85,247,0.1), transparent 60%), #020617",
+          boxShadow: "0 25px 50px rgba(0,0,0,0.6)",
+          border: "1px solid rgba(148,163,184,0.2)",
         }}
       >
         {/* Header */}
-        <div
+        <header
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -107,45 +82,36 @@ export default function DashboardPage() {
           <div>
             <h1
               style={{
-                fontSize: "26px",
+                fontSize: "24px",
                 fontWeight: 700,
-                letterSpacing: "0.02em",
+                marginBottom: "4px",
               }}
             >
               LIVO Core Dashboard
             </h1>
-            <p
-              style={{
-                marginTop: "6px",
-                fontSize: "14px",
-                color: "#9ca3af",
-              }}
-            >
-              Welcome back, <span style={{ color: "#e5e7eb" }}>{userName}</span>
-              . This is your main control center.
+            <p style={{ color: "#9ca3af", fontSize: "14px" }}>
+              Welcome back, {userName}. This is your main control center.
             </p>
           </div>
-
           <button
             type="button"
             style={{
-              padding: "8px 18px",
+              padding: "8px 20px",
               borderRadius: "999px",
-              border: "1px solid rgba(148,163,184,0.4)",
-              background:
-                "radial-gradient(circle at top left, #1f2937, #020617)",
+              border: "1px solid rgba(148,163,184,0.6)",
+              background: "rgba(15,23,42,0.8)",
               color: "#e5e7eb",
               fontSize: "13px",
-              fontWeight: 500,
-              cursor: "default",
+              cursor: "pointer",
             }}
+            onClick={() => alert("Logout is mock-only in this demo.")}
           >
             Logout (mock)
           </button>
-        </div>
+        </header>
 
         {/* Top stats */}
-        <div
+        <section
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
@@ -158,61 +124,54 @@ export default function DashboardPage() {
               key={item.id}
               style={{
                 borderRadius: "18px",
-                padding: "18px 18px 16px 18px",
+                padding: "18px 20px",
                 background: item.background,
-                border: "1px solid rgba(148,163,184,0.45)",
-                boxShadow: "0 14px 35px rgba(0,0,0,0.55)",
+                boxShadow: "0 10px 25px rgba(0,0,0,0.35)",
+                border: "1px solid rgba(15,23,42,0.8)",
               }}
             >
-              <p
+              <div
                 style={{
-                  fontSize: "12px",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.16em",
-                  color: "#cbd5f5",
-                  marginBottom: "10px",
+                  fontSize: "13px",
+                  color: "#e5e7eb",
+                  marginBottom: "6px",
+                  opacity: 0.9,
                 }}
               >
                 {item.label}
-              </p>
-              <p
+              </div>
+              <div
                 style={{
-                  fontSize: "26px",
+                  fontSize: "24px",
                   fontWeight: 700,
                   marginBottom: "8px",
                 }}
               >
                 {item.value}
-              </p>
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "#e5e7eb",
-                  opacity: 0.9,
-                }}
-              >
+              </div>
+              <div style={{ fontSize: "12px", color: "#d1d5db" }}>
                 {item.description}
-              </p>
+              </div>
             </div>
           ))}
-        </div>
+        </section>
 
-        {/* Bottom grid: Quick Actions + Activity */}
-        <div
+        {/* Bottom area: Quick Actions + Recent Activity */}
+        <section
           style={{
             display: "grid",
-            gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)",
-            gap: "18px",
+            gridTemplateColumns: "minmax(0, 3fr) minmax(0, 2fr)",
+            gap: "20px",
           }}
         >
           {/* Quick Actions */}
-          <section
+          <div
             style={{
               borderRadius: "18px",
-              padding: "18px 18px 16px 18px",
+              padding: "20px",
               background:
-                "radial-gradient(circle at top left, #020617, #020617)",
-              border: "1px solid rgba(148,163,184,0.45)",
+                "radial-gradient(circle at top left, rgba(56,189,248,0.08), transparent 55%), #020617",
+              border: "1px solid rgba(55,65,81,0.9)",
             }}
           >
             <h2
@@ -226,9 +185,9 @@ export default function DashboardPage() {
             </h2>
             <p
               style={{
-                fontSize: "13px",
+                fontSize: "12px",
                 color: "#9ca3af",
-                marginBottom: "16px",
+                marginBottom: "14px",
               }}
             >
               Choose how you want to start. These buttons are placeholders for
@@ -239,53 +198,78 @@ export default function DashboardPage() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                gap: "12px",
+                gap: "14px",
               }}
             >
-              {quickActions.map((action) => (
-                <div
-                  key={action.id}
-                  style={{
-                    borderRadius: "16px",
-                    padding: "12px 12px 10px 12px",
-                    border: `1px solid ${action.borderColor}`,
-                    background:
-                      "linear-gradient(145deg, rgba(15,23,42,0.95), rgba(15,23,42,0.9))",
-                    cursor: "not-allowed",
-                    boxShadow: "0 10px 25px rgba(0,0,0,0.55)",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: "13px",
-                      fontWeight: 600,
-                      marginBottom: "4px",
-                    }}
-                  >
-                    {action.title}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "#9ca3af",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {action.subtitle}
-                  </p>
-                </div>
-              ))}
+              {/* کارت 1: Live Voice Translator → لینک به /voice */}
+              <a
+                href="/voice"
+                style={{
+                  display: "block",
+                  padding: "16px 14px",
+                  borderRadius: "14px",
+                  background:
+                    "linear-gradient(135deg, rgba(34,197,94,0.18), rgba(34,197,94,0.04))",
+                  border: "1px solid rgba(34,197,94,0.6)",
+                  color: "#bbf7d0",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textDecoration: "none",
+                  textAlign: "center",
+                  cursor: "pointer",
+                }}
+              >
+                Live Voice Translator
+              </a>
+
+              {/* کارت 2: Live Video Translator (soon) */}
+              <div
+                style={{
+                  padding: "16px 14px",
+                  borderRadius: "14px",
+                  background:
+                    "linear-gradient(135deg, rgba(59,130,246,0.18), rgba(59,130,246,0.04))",
+                  border: "1px solid rgba(59,130,246,0.6)",
+                  color: "#bfdbfe",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  cursor: "not-allowed",
+                  opacity: 0.6,
+                }}
+              >
+                Live Video Translator (soon)
+              </div>
+
+              {/* کارت 3: AI Chat & File Translator (soon) */}
+              <div
+                style={{
+                  padding: "16px 14px",
+                  borderRadius: "14px",
+                  background:
+                    "linear-gradient(135deg, rgba(168,85,247,0.18), rgba(168,85,247,0.04))",
+                  border: "1px solid rgba(168,85,247,0.6)",
+                  color: "#e9d5ff",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textAlign: "center",
+                  cursor: "not-allowed",
+                  opacity: 0.6,
+                }}
+              >
+                AI Chat & File Translator (soon)
+              </div>
             </div>
-          </section>
+          </div>
 
           {/* Recent Activity */}
-          <section
+          <div
             style={{
               borderRadius: "18px",
-              padding: "18px 18px 16px 18px",
+              padding: "20px",
               background:
-                "radial-gradient(circle at top left, #020617, #020617)",
-              border: "1px solid rgba(148,163,184,0.45)",
+                "radial-gradient(circle at top, rgba(148,163,184,0.12), transparent 60%), #020617",
+              border: "1px solid rgba(55,65,81,0.9)",
             }}
           >
             <h2
@@ -299,9 +283,9 @@ export default function DashboardPage() {
             </h2>
             <p
               style={{
-                fontSize: "13px",
+                fontSize: "12px",
                 color: "#9ca3af",
-                marginBottom: "16px",
+                marginBottom: "14px",
               }}
             >
               Preview of how we will show your session history later.
@@ -312,36 +296,31 @@ export default function DashboardPage() {
                 <li
                   key={item.id}
                   style={{
-                    padding: "8px 0",
+                    padding: "10px 0",
                     borderBottom:
-                      item.id === recentActivity[recentActivity.length - 1].id
-                        ? "none"
-                        : "1px solid rgba(55,65,81,0.65)",
+                      item.id !== recentActivity.length
+                        ? "1px solid rgba(31,41,55,0.9)"
+                        : "none",
                   }}
                 >
-                  <p
+                  <div
                     style={{
                       fontSize: "13px",
                       fontWeight: 500,
-                      marginBottom: "2px",
+                      marginBottom: "3px",
                     }}
                   >
                     {item.title}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "12px",
-                      color: "#9ca3af",
-                    }}
-                  >
-                    {item.meta}
-                  </p>
+                  </div>
+                  <div style={{ fontSize: "12px", color: "#9ca3af" }}>
+                    {item.detail}
+                  </div>
                 </li>
               ))}
             </ul>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
