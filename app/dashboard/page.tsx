@@ -77,6 +77,12 @@ export default function DashboardPage() {
     marginBottom: "24px",
   };
 
+  const headerRight: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  };
+
   const logoutButtonStyle: React.CSSProperties = {
     padding: "8px 18px",
     borderRadius: "999px",
@@ -85,6 +91,16 @@ export default function DashboardPage() {
     color: "#e5e7eb",
     cursor: "pointer",
     fontSize: "13px",
+  };
+
+  const settingsButtonStyle: React.CSSProperties = {
+    padding: "6px 14px",
+    borderRadius: "999px",
+    border: "1px solid rgba(59, 130, 246, 0.5)",
+    background: "rgba(15, 23, 42, 0.85)",
+    color: "#bfdbfe",
+    cursor: "pointer",
+    fontSize: "12px",
   };
 
   const statGridStyle: React.CSSProperties = {
@@ -197,15 +213,26 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <button
-            type="button"
-            style={logoutButtonStyle}
-            onClick={() => {
-              window.location.href = "/login";
-            }}
-          >
-            Logout (mock)
-          </button>
+          <div style={headerRight}>
+            <button
+              type="button"
+              style={settingsButtonStyle}
+              onClick={() => {
+                window.location.href = "/settings";
+              }}
+            >
+              Settings
+            </button>
+            <button
+              type="button"
+              style={logoutButtonStyle}
+              onClick={() => {
+                window.location.href = "/login";
+              }}
+            >
+              Logout (mock)
+            </button>
+          </div>
         </header>
 
         {/* Stats */}
