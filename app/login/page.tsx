@@ -1,21 +1,27 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleLogin() {
+  // ضدگلوله: مدیریت کامل لاگین
+  async function handleLogin(event: React.FormEvent) {
+    event.preventDefault(); // نگذار صفحه رفرش شود
+
     if (!email || !password) {
-      setMessage("Email and password are required.");
+      setMessage("ایمیل و رمز عبور الزامی است.");
       return;
     }
 
     setIsLoading(true);
-    setMessage("Loading...");
+    setMessage("");
 
     try {
       const res = await fetch("/api/login", {
@@ -29,19 +35,20 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (!data.success) {
-        setMessage(data.message || "Login failed.");
+        setMessage(data.message || "ورود ناموفق بود، دوباره تلاش کنید.");
         setIsLoading(false);
         return;
       }
 
-      setMessage("Login successful. Redirecting...");
+      // اینجا ورود موفق است
+      setMessage("ورود موفقیت‌آمیز. در حال انتقال به داشبورد...");
 
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 800);
+      // ضدگلوله: ریدایرکت رسمی Next.js
+      router.push("/dashboard");
+      // نیازی به setIsLoading(false) بعد از push نیست
     } catch (err) {
       console.error("LOGIN ERROR:", err);
-      setMessage("Network error. Please try again.");
+      setMessage("خطای شبکه. لطفاً دوباره تلاش کنید.");
       setIsLoading(false);
     }
   }
@@ -58,90 +65,125 @@ export default function LoginPage() {
         fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
       }}
     >
-      <div style={{ width: "360px", textAlign: "center" }}>
-        <h1 style={{ fontSize: "28px", marginBottom: "16px" }}>Login</h1>
-        <p style={{ marginBottom: "24px", fontSize: "14px", color: "#cbd5f5" }}>
-          Enter your email and password to continue.
-        </p>
-
-        <div
+      <div
+        style={{
+          width: "360px",
+          padding: "32px",
+          borderRadius: "24px",
+          background:
+            "radial-gradient(circle at top, #0f172a 0, #020617 60%, #000 100%)",
+          boxShadow: "0 18px 45px rgba(0,0,0,0.7)",
+          border: "1px solid rgba(148,163,184,0.3)",
+        }}
+      >
+        <h1
           style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            textAlign: "left",
+            fontSize: "26px",
+            marginBottom: "8px",
+            textAlign: "center",
           }}
         >
-          <label style={{ fontSize: "14px" }}>
-            Email
+          ورود
+        </h1>
+        <p
+          style={{
+            marginBottom: "24px",
+            fontSize: "14px",
+            textAlign: "center",
+            color: "#cbd5f5",
+          }}
+        >
+          برای ادامه ایمیل و رمز عبور خود را وارد کنید.
+        </p>
+
+        <form
+          onSubmit={handleLogin}
+          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            <label style={{ fontSize: "14px" }}>ایمیل</label>
             <input
               type="email"
-              placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
               style={{
-                marginTop: "6px",
-                width: "100%",
                 padding: "10px",
-                borderRadius: "6px",
+                borderRadius: "8px",
                 border: "1px solid #334155",
                 backgroundColor: "#020617",
                 color: "white",
               }}
             />
-          </label>
+          </div>
 
-          <label style={{ fontSize: "14px" }}>
-            Password
+          <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+            <label style={{ fontSize: "14px" }}>رمز عبور</label>
             <input
               type="password"
-              placeholder="●●●●●●●●"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
               style={{
-                marginTop: "6px",
-                width: "100%",
                 padding: "10px",
-                borderRadius: "6px",
+                borderRadius: "8px",
                 border: "1px solid #334155",
                 backgroundColor: "#020617",
                 color: "white",
               }}
             />
-          </label>
+          </div>
 
           <button
-            onClick={handleLogin}
+            type="submit"
             disabled={isLoading}
             style={{
               marginTop: "16px",
-              width: "100%",
               padding: "10px",
-              borderRadius: "9999px",
+              borderRadius: "999px",
               border: "none",
-              background: "linear-gradient(90deg, #22c55e, #16a34a)",
+              cursor: isLoading ? "not-allowed" : "pointer",
+              background: isLoading
+                ? "linear-gradient(90deg,#16a34a,#4ade80)"
+                : "linear-gradient(90deg,#22c55e,#16a34a)",
               color: "black",
               fontWeight: 600,
               fontSize: "15px",
-              cursor: isLoading ? "not-allowed" : "pointer",
-              opacity: isLoading ? 0.7 : 1,
+              boxShadow: "0 12px 30px rgba(34,197,94,0.45)",
+              transition: "transform 0.12s ease, box-shadow 0.12s ease",
             }}
           >
-            {isLoading ? "Signing in..." : "Sign in"}
+            {isLoading ? "در حال ورود..." : "ورود"}
           </button>
-        </div>
+        </form>
 
-        <p style={{ marginTop: "16px", fontSize: "14px", color: "#e5e7eb" }}>
-          {message}
-        </p>
+        {message && (
+          <p
+            style={{
+              marginTop: "16px",
+              fontSize: "13px",
+              textAlign: "center",
+              color: "#e5e7eb",
+            }}
+          >
+            {message}
+          </p>
+        )}
 
-        <p style={{ marginTop: "12px", fontSize: "13px", color: "#94a3b8" }}>
-          Don&apos;t have an account?{" "}
+        <p
+          style={{
+            marginTop: "18px",
+            fontSize: "13px",
+            textAlign: "center",
+            color: "#9ca3af",
+          }}
+        >
+          ثبت نام نکرده‌اید؟{" "}
           <a
             href="/register"
             style={{ color: "#38bdf8", textDecoration: "none" }}
           >
-            Register
+            ثبت نام کنید
           </a>
         </p>
       </div>
