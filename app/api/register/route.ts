@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabaseClient";
 
-// این Route برای ثبت‌نام واقعی کاربر در Supabase استفاده می‌شود
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -9,7 +8,7 @@ export async function POST(request: Request) {
 
     console.log("REGISTER REQUEST BODY:", body);
 
-    // ۱) چک کردن این که همه فیلدها پر شده باشند
+    // ۱) چک کردن فیلدها
     if (!name || !email || !password) {
       return NextResponse.json(
         {
@@ -20,45 +19,68 @@ export async function POST(request: Request) {
       );
     }
 
-    // ۲) ثبت‌نام کاربر در Supabase Auth
-    const { data, error } = await supabase.auth.signUp({
+    // ۲) ساخت یوزر در Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          full_name: name,
-        },
-      },
     });
 
-    if (error) {
-      console.error("SUPABASE SIGNUP ERROR:", error);
+    if (authError) {
+      console.error("SUPABASE AUTH ERROR:", authError);
       return NextResponse.json(
         {
           success: false,
-          message: error.message || "Signup failed.",
+          message: authError.message || "Failed to register user.",
         },
         { status: 400 }
       );
     }
 
-    // تا اینجای کار: کاربر در Supabase Auth ساخته شده است.
-    // در فاز بعدی، بعد از لاگین، پروفایلش را در جدول profiles هم پر می‌کنیم.
+    const user = authData.user;
+    if (!user) {
+      console.error("No user returned from Supabase.");
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User not returned from Supabase.",
+        },
+        { status: 500 }
+      );
+    }
 
+    // ۳) ذخیره پروفایل در جدول profiles
+    const { error: profileError } = await supabase.from("profiles").insert({
+      user_id: user.id,
+      email,
+      full_name: name,
+    });
+
+    if (profileError) {
+      console.error("SUPABASE PROFILE ERROR:", profileError);
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User created but failed to save profile.",
+        },
+        { status: 500 }
+      );
+    }
+
+    // ۴) موفقیت
     return NextResponse.json(
       {
         success: true,
         message: "User registered successfully.",
-        userId: data.user?.id || null,
       },
       { status: 200 }
     );
-  } catch (err) {
-    console.error("REGISTER API UNEXPECTED ERROR:", err);
+  } catch (error) {
+    console.error("REGISTER ERROR:", error);
+
     return NextResponse.json(
       {
         success: false,
-        message: "Unexpected server error.",
+        message: "Internal server error.",
       },
       { status: 500 }
     );
