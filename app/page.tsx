@@ -1,3 +1,5 @@
+"use client";
+
 export default function Home() {
   return (
     <main
@@ -17,39 +19,40 @@ export default function Home() {
           Welcome. Choose an option to continue.
         </p>
 
-        <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
-          {/* Login → /login */}
-          <a href="/login" style={{ textDecoration: "none" }}>
-            <button
-              style={{
-                padding: "10px 24px",
-                borderRadius: "9999px",
-                border: "none",
-                backgroundColor: "#0ea5e9",
-                color: "white",
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-            >
-              Login
-            </button>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            justifyContent: "center",
+          }}
+        >
+          <a
+            href="/login"
+            style={{
+              padding: "10px 24px",
+              borderRadius: "9999px",
+              border: "none",
+              backgroundColor: "#22c55e",
+              color: "black",
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            Login
           </a>
 
-          {/* Register → /register */}
-          <a href="/register" style={{ textDecoration: "none" }}>
-            <button
-              style={{
-                padding: "10px 24px",
-                borderRadius: "9999px",
-                border: "1px solid #64748b",
-                backgroundColor: "transparent",
-                color: "white",
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-            >
-              Register
-            </button>
+          <a
+            href="/register"
+            style={{
+              padding: "10px 24px",
+              borderRadius: "9999px",
+              border: "1px solid #64748b",
+              backgroundColor: "transparent",
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            Register
           </a>
         </div>
       </div>
